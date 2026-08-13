@@ -45,10 +45,12 @@ def test_pass_to_fail_flip_is_a_regression():
     assert rep.pass_rate_delta == -100.0
 
 def test_identical_runs_have_no_regressions():
-    # ... existing setup, unchanged ...
-    report = compare_runs(run, run)
-    assert report.regressions == []          # was: report.diffs == []
-    assert not report.has_regressions
+    results = [_result("S01", "PASS", score=4.0), _result("S02", "FAIL", score=2.0)]
+    rep = compare_runs(_run("A", results), _run("B", list(results)))
+    assert not rep.has_regressions
+    assert rep.regressions == []
+    assert len(rep.stable_failures) == 1      # S02 failed in both runs — context, not news
+    assert rep.compared == 2
 
 
 # ── the other categories ──────────────────────────────────────────────────────
