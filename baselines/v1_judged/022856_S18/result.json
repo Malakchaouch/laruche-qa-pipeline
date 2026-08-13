@@ -1,0 +1,59 @@
+{
+  "scenario_id": "S18",
+  "verdict": "PASS",
+  "failure_kind": "none",
+  "failure_step": null,
+  "total_ms": 7324.6,
+  "evidence_dir": "runs\\job_20260811_022717\\022856_S18",
+  "reply_text": "[portfolio.summary] Portfolio Summary: AUM:\n20.4M(48deals,42active)TotalProfit:7.85M inception-to-date TWR: 178.65% Annualized Return: 7.06% IRR: 8.30% Sharpe Ratio: 0.58 Volatility: 12.27% Inception: 15.0 years\nSources: portfolio.summary.",
+  "steps": [
+    {
+      "index": 0,
+      "do": "navigate",
+      "status": "ok",
+      "ms": 529.9,
+      "detail": "/chat",
+      "screenshot": "runs\\job_20260811_022717\\022856_S18\\screenshots\\000_navigate.png"
+    },
+    {
+      "index": 1,
+      "do": "wait_visible",
+      "status": "ok",
+      "ms": 98.9,
+      "detail": "chat_input",
+      "screenshot": "runs\\job_20260811_022717\\022856_S18\\screenshots\\001_wait_visible.png"
+    },
+    {
+      "index": 2,
+      "do": "type",
+      "status": "ok",
+      "ms": 571.4,
+      "detail": "chat_input <- 'Give me a quick summary of my portfolio.'",
+      "screenshot": "runs\\job_20260811_022717\\022856_S18\\screenshots\\002_type.png"
+    },
+    {
+      "index": 3,
+      "do": "click",
+      "status": "ok",
+      "ms": 208.4,
+      "detail": "send_button",
+      "screenshot": "runs\\job_20260811_022717\\022856_S18\\screenshots\\003_click.png"
+    },
+    {
+      "index": 4,
+      "do": "wait_text_stable",
+      "status": "ok",
+      "ms": 5770.2,
+      "detail": "reply stable (239 chars)",
+      "screenshot": "runs\\job_20260811_022717\\022856_S18\\screenshots\\004_wait_text_stable.png"
+    },
+    {
+      "index": 5,
+      "do": "assert_text_not_empty",
+      "status": "ok",
+      "ms": 145.6,
+      "detail": "reply (239 chars)",
+      "screenshot": "runs\\job_20260811_022717\\022856_S18\\screenshots\\005_assert_text_not_empty.png"
+    }
+  ]
+}

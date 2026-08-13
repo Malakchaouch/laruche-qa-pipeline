@@ -1,0 +1,22 @@
+{
+  "dsl_version": 1,
+  "id": "SMOKE_CHAT_001",
+  "intent": "chat_roundtrip",
+  "description": "Open the LaRuche chat, send one nominal financial question, wait for the streamed reply to finish, and assert it is non-empty. DSL translation of the deterministic fallback script in swarm_qa/channels/web_channel.py.",
+  "sensitive": false,
+  "base_url": "http://localhost:5173",
+  "targets": {
+    "chat_input":  {"css": "input.composer-input",   "description": "message composer"},
+    "send_button": {"css": "button.composer-primary:not(.composer-voice)", "description": "send button"},
+    "reply":       {"css": ".assistant-answer", "index": -1, "description": "newest assistant reply"}
+  },
+  "steps": [
+    {"do": "navigate", "path": "/chat"},
+    {"do": "wait_visible", "target": "chat_input", "timeout_s": 10},
+    {"do": "type", "target": "chat_input", "text": "What is my total assets under management?"},
+    {"do": "click", "target": "send_button"},
+    {"do": "wait_text_stable", "target": "reply", "timeout_s": 30, "stable_s": 1.5, "must_change": true, "min_chars": 10},
+    {"do": "assert_text_not_empty", "target": "reply"},
+    {"do": "screenshot", "label": "final"}
+  ]
+}

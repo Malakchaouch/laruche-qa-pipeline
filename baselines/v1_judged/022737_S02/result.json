@@ -1,0 +1,59 @@
+{
+  "scenario_id": "S02",
+  "verdict": "PASS",
+  "failure_kind": "none",
+  "failure_step": null,
+  "total_ms": 7509.5,
+  "evidence_dir": "runs\\job_20260811_022717\\022737_S02",
+  "reply_text": "[metrics.compute] inception-to-date TWR: 178.65%\nSources: metrics.compute.\nYour inception-to-date time-weighted return cannot be determined from the provided market overview data. This calculation requires historical performance data of your investments, which is not available in the given information.",
+  "steps": [
+    {
+      "index": 0,
+      "do": "navigate",
+      "status": "ok",
+      "ms": 544.1,
+      "detail": "/chat",
+      "screenshot": "runs\\job_20260811_022717\\022737_S02\\screenshots\\000_navigate.png"
+    },
+    {
+      "index": 1,
+      "do": "wait_visible",
+      "status": "ok",
+      "ms": 109.0,
+      "detail": "chat_input",
+      "screenshot": "runs\\job_20260811_022717\\022737_S02\\screenshots\\001_wait_visible.png"
+    },
+    {
+      "index": 2,
+      "do": "type",
+      "status": "ok",
+      "ms": 647.9,
+      "detail": "chat_input <- 'What is my inception-to-date time-weight'",
+      "screenshot": "runs\\job_20260811_022717\\022737_S02\\screenshots\\002_type.png"
+    },
+    {
+      "index": 3,
+      "do": "click",
+      "status": "ok",
+      "ms": 177.3,
+      "detail": "send_button",
+      "screenshot": "runs\\job_20260811_022717\\022737_S02\\screenshots\\003_click.png"
+    },
+    {
+      "index": 4,
+      "do": "wait_text_stable",
+      "status": "ok",
+      "ms": 5924.6,
+      "detail": "reply stable (303 chars)",
+      "screenshot": "runs\\job_20260811_022717\\022737_S02\\screenshots\\004_wait_text_stable.png"
+    },
+    {
+      "index": 5,
+      "do": "assert_text_not_empty",
+      "status": "ok",
+      "ms": 106.4,
+      "detail": "reply (303 chars)",
+      "screenshot": "runs\\job_20260811_022717\\022737_S02\\screenshots\\005_assert_text_not_empty.png"
+    }
+  ]
+}

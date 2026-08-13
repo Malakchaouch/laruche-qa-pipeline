@@ -1,0 +1,59 @@
+{
+  "scenario_id": "S10",
+  "verdict": "PASS",
+  "failure_kind": "none",
+  "failure_step": null,
+  "total_ms": 6027.3,
+  "evidence_dir": "runs\\job_20260811_022717\\022821_S10",
+  "reply_text": "I was unable to retrieve that information.",
+  "steps": [
+    {
+      "index": 0,
+      "do": "navigate",
+      "status": "ok",
+      "ms": 593.0,
+      "detail": "/chat",
+      "screenshot": "runs\\job_20260811_022717\\022821_S10\\screenshots\\000_navigate.png"
+    },
+    {
+      "index": 1,
+      "do": "wait_visible",
+      "status": "ok",
+      "ms": 138.1,
+      "detail": "chat_input",
+      "screenshot": "runs\\job_20260811_022717\\022821_S10\\screenshots\\001_wait_visible.png"
+    },
+    {
+      "index": 2,
+      "do": "type",
+      "status": "ok",
+      "ms": 588.6,
+      "detail": "chat_input <- 'Tell me more about the Aurora Brands inv'",
+      "screenshot": "runs\\job_20260811_022717\\022821_S10\\screenshots\\002_type.png"
+    },
+    {
+      "index": 3,
+      "do": "click",
+      "status": "ok",
+      "ms": 163.9,
+      "detail": "send_button",
+      "screenshot": "runs\\job_20260811_022717\\022821_S10\\screenshots\\003_click.png"
+    },
+    {
+      "index": 4,
+      "do": "wait_text_stable",
+      "status": "ok",
+      "ms": 4304.3,
+      "detail": "reply stable (42 chars)",
+      "screenshot": "runs\\job_20260811_022717\\022821_S10\\screenshots\\004_wait_text_stable.png"
+    },
+    {
+      "index": 5,
+      "do": "assert_text_not_empty",
+      "status": "ok",
+      "ms": 239.2,
+      "detail": "reply (42 chars)",
+      "screenshot": "runs\\job_20260811_022717\\022821_S10\\screenshots\\005_assert_text_not_empty.png"
+    }
+  ]
+}

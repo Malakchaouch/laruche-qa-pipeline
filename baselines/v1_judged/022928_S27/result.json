@@ -1,0 +1,59 @@
+{
+  "scenario_id": "S27",
+  "verdict": "PASS",
+  "failure_kind": "none",
+  "failure_step": null,
+  "total_ms": 7958.7,
+  "evidence_dir": "runs\\job_20260811_022717\\022928_S27",
+  "reply_text": "[metrics.compute] AUM: $20.4M\nSources: metrics.compute.",
+  "steps": [
+    {
+      "index": 0,
+      "do": "navigate",
+      "status": "ok",
+      "ms": 758.7,
+      "detail": "/chat",
+      "screenshot": "runs\\job_20260811_022717\\022928_S27\\screenshots\\000_navigate.png"
+    },
+    {
+      "index": 1,
+      "do": "wait_visible",
+      "status": "ok",
+      "ms": 142.5,
+      "detail": "chat_input",
+      "screenshot": "runs\\job_20260811_022717\\022928_S27\\screenshots\\001_wait_visible.png"
+    },
+    {
+      "index": 2,
+      "do": "type",
+      "status": "ok",
+      "ms": 417.2,
+      "detail": "chat_input <- 'What is my AUM?'",
+      "screenshot": "runs\\job_20260811_022717\\022928_S27\\screenshots\\002_type.png"
+    },
+    {
+      "index": 3,
+      "do": "click",
+      "status": "ok",
+      "ms": 427.7,
+      "detail": "send_button",
+      "screenshot": "runs\\job_20260811_022717\\022928_S27\\screenshots\\003_click.png"
+    },
+    {
+      "index": 4,
+      "do": "wait_text_stable",
+      "status": "ok",
+      "ms": 6112.9,
+      "detail": "reply stable (55 chars)",
+      "screenshot": "runs\\job_20260811_022717\\022928_S27\\screenshots\\004_wait_text_stable.png"
+    },
+    {
+      "index": 5,
+      "do": "assert_text_not_empty",
+      "status": "ok",
+      "ms": 99.6,
+      "detail": "reply (55 chars)",
+      "screenshot": "runs\\job_20260811_022717\\022928_S27\\screenshots\\005_assert_text_not_empty.png"
+    }
+  ]
+}

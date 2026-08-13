@@ -1,0 +1,52 @@
+name: Tests
+
+# Guards the QA pipeline's own code. Runs on GitHub's hosted runners, so it
+# needs nothing but Python — no LaRuche, no Chrome, no Ollama.
+# The pipeline itself is tested by qa-regression.yml on a self-hosted runner.
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  unit-tests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          # Selenium and langgraph are imported by modules under test, so they
+          # must be installed even though no browser is launched here.
+          python -m pip install pytest selenium langgraph pydantic
+          if [ -f requirements.txt ]; then python -m pip install -r requirements.txt; fi
+
+      - name: Run the test suite
+        run: python -m pytest autonomous/tests -q
+
+      - name: Check the comparator still runs
+        # A smoke test on the CLI itself: comparing a run against itself must
+        # report zero regressions and exit 0. If this fails, the CI gate in
+        # qa-regression.yml cannot be trusted.
+        run: |
+          if [ -f baselines/v1_judged/pipeline_result.json ]; then
+            python -m autonomous.graph.compare \
+              baselines/v1_judged/pipeline_result.json \
+              baselines/v1_judged/pipeline_result.json \
+              --fail-on-regression
+            echo "Self-comparison clean — comparator behaving correctly."
+          else
+            echo "No committed baseline yet; skipping the self-comparison check."
+          fi

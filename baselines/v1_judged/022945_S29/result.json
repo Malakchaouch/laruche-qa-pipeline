@@ -1,0 +1,59 @@
+{
+  "scenario_id": "S29",
+  "verdict": "PASS",
+  "failure_kind": "none",
+  "failure_step": null,
+  "total_ms": 5407.3,
+  "evidence_dir": "runs\\job_20260811_022717\\022945_S29",
+  "reply_text": "To determine how many investments you currently have, please provide the specific details or account information from your financial institution.",
+  "steps": [
+    {
+      "index": 0,
+      "do": "navigate",
+      "status": "ok",
+      "ms": 611.8,
+      "detail": "/chat",
+      "screenshot": "runs\\job_20260811_022717\\022945_S29\\screenshots\\000_navigate.png"
+    },
+    {
+      "index": 1,
+      "do": "wait_visible",
+      "status": "ok",
+      "ms": 97.5,
+      "detail": "chat_input",
+      "screenshot": "runs\\job_20260811_022717\\022945_S29\\screenshots\\001_wait_visible.png"
+    },
+    {
+      "index": 2,
+      "do": "type",
+      "status": "ok",
+      "ms": 624.2,
+      "detail": "chat_input <- 'How many investments do I have?'",
+      "screenshot": "runs\\job_20260811_022717\\022945_S29\\screenshots\\002_type.png"
+    },
+    {
+      "index": 3,
+      "do": "click",
+      "status": "ok",
+      "ms": 204.8,
+      "detail": "send_button",
+      "screenshot": "runs\\job_20260811_022717\\022945_S29\\screenshots\\003_click.png"
+    },
+    {
+      "index": 4,
+      "do": "wait_text_stable",
+      "status": "ok",
+      "ms": 3784.9,
+      "detail": "reply stable (145 chars)",
+      "screenshot": "runs\\job_20260811_022717\\022945_S29\\screenshots\\004_wait_text_stable.png"
+    },
+    {
+      "index": 5,
+      "do": "assert_text_not_empty",
+      "status": "ok",
+      "ms": 83.9,
+      "detail": "reply (145 chars)",
+      "screenshot": "runs\\job_20260811_022717\\022945_S29\\screenshots\\005_assert_text_not_empty.png"
+    }
+  ]
+}

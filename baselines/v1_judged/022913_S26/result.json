@@ -1,0 +1,59 @@
+{
+  "scenario_id": "S26",
+  "verdict": "PASS",
+  "failure_kind": "none",
+  "failure_step": null,
+  "total_ms": 4226.6,
+  "evidence_dir": "runs\\job_20260811_022717\\022913_S26",
+  "reply_text": "Geographic Allocation\nRegion Allocation\nAsia 37%\nNorth America 35%\nGlobal 16%\nEurope 8%\nMiddle East 4%\nSector / Asset-Class Breakdown\nAsset Class Allocation\nReal Estate 45%\nPrivate Equity 35%\nEquities 15%\nCredit 5%\nSources: portfolio.geo_breakdown, portfolio.sector_breakdown.",
+  "steps": [
+    {
+      "index": 0,
+      "do": "navigate",
+      "status": "ok",
+      "ms": 609.2,
+      "detail": "/chat",
+      "screenshot": "runs\\job_20260811_022717\\022913_S26\\screenshots\\000_navigate.png"
+    },
+    {
+      "index": 1,
+      "do": "wait_visible",
+      "status": "ok",
+      "ms": 91.8,
+      "detail": "chat_input",
+      "screenshot": "runs\\job_20260811_022717\\022913_S26\\screenshots\\001_wait_visible.png"
+    },
+    {
+      "index": 2,
+      "do": "type",
+      "status": "ok",
+      "ms": 741.9,
+      "detail": "chat_input <- 'Compare my real estate allocation to pri'",
+      "screenshot": "runs\\job_20260811_022717\\022913_S26\\screenshots\\002_type.png"
+    },
+    {
+      "index": 3,
+      "do": "click",
+      "status": "ok",
+      "ms": 233.7,
+      "detail": "send_button",
+      "screenshot": "runs\\job_20260811_022717\\022913_S26\\screenshots\\003_click.png"
+    },
+    {
+      "index": 4,
+      "do": "wait_text_stable",
+      "status": "ok",
+      "ms": 2391.5,
+      "detail": "reply stable (276 chars)",
+      "screenshot": "runs\\job_20260811_022717\\022913_S26\\screenshots\\004_wait_text_stable.png"
+    },
+    {
+      "index": 5,
+      "do": "assert_text_not_empty",
+      "status": "ok",
+      "ms": 158.1,
+      "detail": "reply (276 chars)",
+      "screenshot": "runs\\job_20260811_022717\\022913_S26\\screenshots\\005_assert_text_not_empty.png"
+    }
+  ]
+}
