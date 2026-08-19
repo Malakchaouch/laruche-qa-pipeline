@@ -76,6 +76,7 @@ def main() -> None:
     state = new_state(
         job_id=job_id,
         base_url=args.base_url,
+        channel=args.channel,
         scenarios=scenarios,
         remote_url=args.remote,
         judge_enabled=not args.no_judge,
@@ -84,7 +85,7 @@ def main() -> None:
     )
 
     app = build_graph()
-    config = {"configurable": {"thread_id": job_id}, "recursion_limit": 100}
+    config = {"configurable": {"thread_id": job_id}, "recursion_limit": 1000}
 
     print(f"Job {job_id}: {len(scenarios)} scenario(s) on {args.base_url}\n")
     final = app.invoke(state, config)

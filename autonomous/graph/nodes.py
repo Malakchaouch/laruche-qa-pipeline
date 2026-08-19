@@ -27,6 +27,7 @@ from typing import Any
 from ..dsl.schema import Scenario
 from ..executor.driver import make_driver
 from ..executor.interpreter import run_scenario
+from ..executor.api_client import run_api_scenario
 from .state import QAState
 from .validator import validate_scenario
 from .judge import judge_result
@@ -126,23 +127,33 @@ def execute(state: QAState) -> dict[str, Any]:
         print(f"  [execute ] SKIPPED ({result['reason']})", flush=True)
         return {"results": [result]}
 
-    scenario = Scenario.model_validate(sc)
-    if state.get("base_url"):
-        scenario = scenario.model_copy(update={"base_url": state["base_url"]})
+    evidence = RUNS_ROOT / state["job_id"] / f"{datetime.now():%H%M%S}_{sc.get('id', 'x')}"
 
-    evidence = RUNS_ROOT / state["job_id"] / f"{datetime.now():%H%M%S}_{scenario.id}"
-    driver = make_driver(remote_url=state.get("remote_url"), headless=True)
-    try:
-        run_result = run_scenario(driver, scenario, evidence)
-    finally:
-        driver.quit()
+    if state.get("channel") == "api":
+        result = run_api_scenario(
+            sc,
+            state.get("base_url") or "http://localhost:8000",
+            evidence,
+        )
+        print(f"  [execute ] {result['verdict']}  ({result['total_ms']:.0f} ms, api)",
+              flush=True)
+    else:
+        scenario = Scenario.model_validate(sc)
+        if state.get("base_url"):
+            scenario = scenario.model_copy(update={"base_url": state["base_url"]})
 
-    print(
-        f"  [execute ] {run_result.verdict}  "
-        f"({run_result.total_ms:.0f} ms, {len(run_result.steps)} steps)",
-        flush=True,
-    )
-    result = run_result.model_dump()
+        driver = make_driver(remote_url=state.get("remote_url"), headless=True)
+        try:
+            run_result = run_scenario(driver, scenario, evidence)
+        finally:
+            driver.quit()
+
+        print(
+            f"  [execute ] {run_result.verdict}  "
+            f"({run_result.total_ms:.0f} ms, {len(run_result.steps)} steps)",
+            flush=True,
+        )
+        result = run_result.model_dump()
     # Carry scenario metadata onto the result so the Judge, the Reporter and the
     # regression diff can label scenarios by intent rather than by bare id.
     result["intent"] = sc.get("intent", "")

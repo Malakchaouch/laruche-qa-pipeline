@@ -29,6 +29,7 @@ class QAState(TypedDict, total=False):
     job_id: str
     base_url: str
     remote_url: str | None          # Selenium Grid URL, or None for local Chromium
+    channel: str                    # "web" (browser) or "api" (HTTP endpoint)
 
     # ── discovered / generated corpus ─────────────────────────────────────────
     # In the skeleton these are injected. Later: Discovery -> Vision -> Generator
@@ -61,16 +62,24 @@ def new_state(
     job_id: str,
     base_url: str,
     scenarios: list[dict[str, Any]],
+    channel: str = "web",
     remote_url: str | None = None,
     judge_enabled: bool = True,
     use_ollama: bool = False,
     discovery_enabled: bool = False,
 ) -> QAState:
-    """Build the initial state for a run. Judge is on by default."""
+    """Build the initial state for a run. Judge is on by default.
+
+    `channel` decides how the Executor reaches the chatbot: "web" drives a real
+    browser through the DSL interpreter, "api" posts to the HTTP endpoint and
+    reassembles the streamed reply. It defaults to "web" so existing callers
+    that omit it keep their previous behaviour.
+    """
     return QAState(
         job_id=job_id,
         base_url=base_url,
         remote_url=remote_url,
+        channel=channel,
         discovered_spec={},
         scenarios=scenarios,
         scenario_index=0,
