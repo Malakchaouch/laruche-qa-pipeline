@@ -1,0 +1,11 @@
+{
+  "scenario_id": "S21",
+  "channel": "api",
+  "endpoint": "/api/chat",
+  "input": "What is the S&P 500 at right now?",
+  "reply": "USD 5,247.49  (+0.42% today)",
+  "verdict": "PASS",
+  "failure_kind": null,
+  "reason": "",
+  "total_ms": 4359.4
+}

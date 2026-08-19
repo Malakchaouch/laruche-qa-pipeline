@@ -1,0 +1,11 @@
+{
+  "scenario_id": "S13",
+  "channel": "api",
+  "endpoint": "/api/chat",
+  "input": "What is the overall volatility of my portfolio?",
+  "reply": "[metrics.compute]\nVolatility: 12.27%\n\n[portfolio.summary]\nPortfolio Summary:\n  AUM: $20.4M (48 deals, 42 active)\n  Total Profit: $7.85M\n  inception-to-date TWR: 178.65%\n  Annualized Return: 7.05%\n  IRR: 8.30%\n  Sharpe Ratio: 0.57\n  Volatility: 12.27%\n  Inception: 15.0 years\n\nSources: `metrics.compute`, `portfolio.summary`.",
+  "verdict": "PASS",
+  "failure_kind": null,
+  "reason": "",
+  "total_ms": 5847.0
+}

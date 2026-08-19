@@ -1,0 +1,11 @@
+{
+  "scenario_id": "S22",
+  "channel": "api",
+  "endpoint": "/api/chat",
+  "input": "What is the price of Bitcoin?",
+  "reply": "The price of Bitcoin is USD 67,450.00 today, with a gain of 2.33% from the previous day.",
+  "verdict": "PASS",
+  "failure_kind": null,
+  "reason": "",
+  "total_ms": 4275.1
+}

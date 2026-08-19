@@ -1,0 +1,11 @@
+{
+  "scenario_id": "S32",
+  "channel": "api",
+  "endpoint": "/api/chat",
+  "input": "Hi there, I was just thinking about a lot of things this morning over coffee and my schedule and the weather and my kids and the news and so on and anyway after all of that what I really wanted to ask you, if you do not mind, is simply this: what is my total AUM right now?",
+  "reply": "## Top Deals by MOIC\n\n| # | Deal | MOIC | Asset Class | Status |\n|---|---|---|---|---|\n| 1 | Aurora Brands | **1.55x** | PE | exited |\n| 2 | Project Summit | **1.52x** | PE | exited |\n| 3 | Project Delta | **1.47x** | PE | active |\n| 4 | Singapore Grade-A Office | **1.42x** | RE | active |\n| 5 | Metro Class-A Office Tower | **1.29x** | RE | active |\n\nAUM: $20.4M\n\nSources: `portfolio.top_deals`, `metrics.compute`.",
+  "verdict": "PASS",
+  "failure_kind": null,
+  "reason": "",
+  "total_ms": 2580.3
+}

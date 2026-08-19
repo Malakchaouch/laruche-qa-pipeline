@@ -1,0 +1,11 @@
+{
+  "scenario_id": "S35",
+  "channel": "api",
+  "endpoint": "/api/chat",
+  "input": "?",
+  "reply": "It seems like your question might have been cut off. Could you please provide more details or ask a complete question so I can assist you better?",
+  "verdict": "PASS",
+  "failure_kind": null,
+  "reason": "",
+  "total_ms": 3931.9
+}

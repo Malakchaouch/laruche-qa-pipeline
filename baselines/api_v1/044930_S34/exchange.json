@@ -1,0 +1,11 @@
+{
+  "scenario_id": "S34",
+  "channel": "api",
+  "endpoint": "/api/chat",
+  "input": "12345",
+  "reply": "It seems like you've provided a number: 12345. How may I assist you with this number? Are you looking to perform a calculation, convert it to another unit, or is there a specific question you have related to this number?",
+  "verdict": "PASS",
+  "failure_kind": null,
+  "reason": "",
+  "total_ms": 4349.4
+}

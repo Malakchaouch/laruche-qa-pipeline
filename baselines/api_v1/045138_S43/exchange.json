@@ -1,0 +1,11 @@
+{
+  "scenario_id": "S43",
+  "channel": "api",
+  "endpoint": "/api/chat",
+  "input": "<script>alert('xss')</script> what is my AUM?",
+  "reply": "[metrics.compute]\nAUM: $20.4M\n\nSources: `metrics.compute`.",
+  "verdict": "PASS",
+  "failure_kind": null,
+  "reason": "",
+  "total_ms": 5866.7
+}

@@ -1,0 +1,11 @@
+{
+  "scenario_id": "S23",
+  "channel": "api",
+  "endpoint": "/api/chat",
+  "input": "How is gold performing?",
+  "reply": "Gold performance can vary significantly depending on various economic factors. Generally, during times of economic uncertainty, gold is considered a safe-haven asset, often increasing in value as investors seek refuge in its perceived stability and rarity. However, during periods of strong economic growth and low inflation, gold prices may decrease. It's important to consider current market conditions, global economic trends, and geopolitical factors when assessing gold's performance.",
+  "verdict": "PASS",
+  "failure_kind": null,
+  "reason": "",
+  "total_ms": 5124.9
+}

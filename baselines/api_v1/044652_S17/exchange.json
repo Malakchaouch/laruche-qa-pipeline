@@ -1,0 +1,11 @@
+{
+  "scenario_id": "S17",
+  "channel": "api",
+  "endpoint": "/api/chat",
+  "input": "What is my exposure by currency?",
+  "reply": "To determine your exposure by currency, you'll need to identify and sum up the values of your assets and liabilities in different currencies. Here’s a step-by-step guide:\n\n1. **List All Assets and Liabilities:** Start by listing all your financial assets and liabilities, including cash, deposits, investments, and any other assets in different currencies.\n\n2. **Identify Currencies:** Note the currency for each asset and liability. If you have multiple assets and liabilities in a single currency, they count as one exposure.\n\n3. **Sum Up Exposure:** For each currency, sum up the values of all your assets and liabilities. The total will be your overall exposure to that currency.\n\n4. **Analyze:** Review your exposure across all currencies. Identify if you have significant exposure to any one currency and whether you have hedged this exposure (e.g., through currency derivatives or investments).\n\nIf you provide more specific details about your financial situation, I can offer more personalized advice.",
+  "verdict": "PASS",
+  "failure_kind": null,
+  "reason": "",
+  "total_ms": 8642.5
+}

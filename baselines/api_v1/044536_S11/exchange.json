@@ -1,0 +1,11 @@
+{
+  "scenario_id": "S11",
+  "channel": "api",
+  "endpoint": "/api/chat",
+  "input": "Hello",
+  "reply": "Hello! I can help with your portfolio performance, market data, investment documents, and reports. What would you like to explore?",
+  "verdict": "PASS",
+  "failure_kind": null,
+  "reason": "",
+  "total_ms": 2040.5
+}

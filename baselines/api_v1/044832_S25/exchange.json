@@ -1,0 +1,11 @@
+{
+  "scenario_id": "S25",
+  "channel": "api",
+  "endpoint": "/api/chat",
+  "input": "What about in Europe specifically?",
+  "reply": "In Europe, private banking services are offered by a variety of institutions. These services cater to high-net-worth individuals and offer personalized financial advice and solutions. The landscape varies by country, with different regulations and cultural nuances affecting service offerings. Some prominent examples of private banks in Europe include BNP Paribas, Credit Suisse, Julius Baer Bank, and UBS. Each of these banks has a strong presence across Europe and provides wealth management services, including asset allocation, private equity, and real estate investments. They also often offer services like private banking, insurance, and trust management.",
+  "verdict": "PASS",
+  "failure_kind": null,
+  "reason": "",
+  "total_ms": 6072.8
+}

@@ -1,0 +1,11 @@
+{
+  "scenario_id": "S19",
+  "channel": "api",
+  "endpoint": "/api/chat",
+  "input": "Which sector has performed best in my portfolio?",
+  "reply": "## Sector / Asset-Class Breakdown\n\n| Asset Class | Allocation |\n|---|---|\n| Real Estate | **45%** |\n| Private Equity | **35%** |\n| Equities | **15%** |\n| Credit | **5%** |\n\nPortfolio Summary:\n  AUM: $20.4M (48 deals, 42 active)\n  Total Profit: $7.85M\n  inception-to-date TWR: 178.65%\n  Annualized Return: 7.05%\n  IRR: 8.30%\n  Sharpe Ratio: 0.57\n  Volatility: 12.27%\n  Inception: 15.0 years\n\nSources: `portfolio.sector_breakdown`, `portfolio.summary`.",
+  "verdict": "PASS",
+  "failure_kind": null,
+  "reason": "",
+  "total_ms": 4860.5
+}

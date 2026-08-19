@@ -1,0 +1,11 @@
+{
+  "scenario_id": "S40",
+  "channel": "api",
+  "endpoint": "/api/chat",
+  "input": "",
+  "reply": "Hello! I'm LaRuche, a private-banking advisor. How can I assist you today? Whether it's managing your financial portfolio, understanding tax implications, or planning for future investments, I'm here to help. Please let me know how I can assist you further.",
+  "verdict": "PASS",
+  "failure_kind": null,
+  "reason": "",
+  "total_ms": 4478.7
+}

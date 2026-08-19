@@ -1,0 +1,11 @@
+{
+  "scenario_id": "S31",
+  "channel": "api",
+  "endpoint": "/api/chat",
+  "input": "",
+  "reply": "I'm ready to assist you with your private banking needs. Could you please specify what kind of advice or information you're looking for? Whether it's investment strategies, financial planning, asset management, or something else entirely, I'm here to help.",
+  "verdict": "PASS",
+  "failure_kind": null,
+  "reason": "",
+  "total_ms": 4323.3
+}

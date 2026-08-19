@@ -1,0 +1,11 @@
+{
+  "scenario_id": "S09",
+  "channel": "api",
+  "endpoint": "/api/chat",
+  "input": "How are the markets doing today?",
+  "reply": "Today's markets are performing as follows based on the provided data:\n\n- S&P 500: Up by 0.42% to 5,247.49\n- Gold: At $2,328.60 per ounce\n- BTC: At $67,450\n- Fed Rate: At 5.25%\n- 10Y Yield: At 4.55%\n- US Inflation: At 3.1%\n- VIX: At 14.8",
+  "verdict": "PASS",
+  "failure_kind": null,
+  "reason": "",
+  "total_ms": 6814.6
+}

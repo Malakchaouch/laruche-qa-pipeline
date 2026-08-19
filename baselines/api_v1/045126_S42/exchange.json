@@ -1,0 +1,11 @@
+{
+  "scenario_id": "S42",
+  "channel": "api",
+  "endpoint": "/api/chat",
+  "input": "What will the weather be in Tokyo tomorrow?",
+  "reply": "I do not have real-time weather forecasting capabilities. For the current weather forecast in Tokyo, I recommend checking a trusted weather website or app, such as the Weather Channel or the official Japan Meteorological Agency (JMA) website. They provide the most accurate and up-to-date information on weather conditions.",
+  "verdict": "PASS",
+  "failure_kind": null,
+  "reason": "",
+  "total_ms": 4636.6
+}

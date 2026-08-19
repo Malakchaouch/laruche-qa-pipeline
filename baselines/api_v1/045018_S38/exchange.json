@@ -1,0 +1,11 @@
+{
+  "scenario_id": "S38",
+  "channel": "api",
+  "endpoint": "/api/chat",
+  "input": "AUM AUM AUM AUM AUM",
+  "reply": "[metrics.compute]\nAUM: $20.4M\n\nSources: `metrics.compute`.",
+  "verdict": "PASS",
+  "failure_kind": null,
+  "reason": "",
+  "total_ms": 5854.9
+}

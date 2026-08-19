@@ -1,0 +1,11 @@
+{
+  "scenario_id": "S07",
+  "channel": "api",
+  "endpoint": "/api/chat",
+  "input": "What are my top deals by MOIC?",
+  "reply": "## Top Deals by MOIC\n\n| # | Deal | MOIC | Asset Class | Status |\n|---|---|---|---|---|\n| 1 | Aurora Brands | **1.55x** | PE | exited |\n| 2 | Project Summit | **1.52x** | PE | exited |\n| 3 | Project Delta | **1.47x** | PE | active |\n| 4 | Singapore Grade-A Office | **1.42x** | RE | active |\n| 5 | Metro Class-A Office Tower | **1.29x** | RE | active |\n\nSources: `portfolio.top_deals`.",
+  "verdict": "PASS",
+  "failure_kind": null,
+  "reason": "",
+  "total_ms": 2574.2
+}

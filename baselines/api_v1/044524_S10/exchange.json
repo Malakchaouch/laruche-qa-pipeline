@@ -1,0 +1,11 @@
+{
+  "scenario_id": "S10",
+  "channel": "api",
+  "endpoint": "/api/chat",
+  "input": "Tell me more about the Aurora Brands investment.",
+  "reply": "I was unable to retrieve that information.",
+  "verdict": "PASS",
+  "failure_kind": null,
+  "reason": "",
+  "total_ms": 4664.4
+}

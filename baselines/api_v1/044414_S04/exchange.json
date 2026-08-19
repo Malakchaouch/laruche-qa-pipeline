@@ -1,0 +1,11 @@
+{
+  "scenario_id": "S04",
+  "channel": "api",
+  "endpoint": "/api/chat",
+  "input": "What is my Sharpe ratio?",
+  "reply": "[metrics.compute]\nSharpe Ratio: 0.57\n\nSources: `metrics.compute`.",
+  "verdict": "PASS",
+  "failure_kind": null,
+  "reason": "",
+  "total_ms": 6088.8
+}

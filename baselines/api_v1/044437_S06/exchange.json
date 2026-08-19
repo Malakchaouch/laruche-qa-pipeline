@@ -1,0 +1,11 @@
+{
+  "scenario_id": "S06",
+  "channel": "api",
+  "endpoint": "/api/chat",
+  "input": "What is my allocation by sector?",
+  "reply": "## Geographic Allocation\n\n| Region | Allocation |\n|---|---|\n| Asia | **37%** |\n| North America | **35%** |\n| Global | **16%** |\n| Europe | **8%** |\n| Middle East | **4%** |\n\n## Sector / Asset-Class Breakdown\n\n| Asset Class | Allocation |\n|---|---|\n| Real Estate | **45%** |\n| Private Equity | **35%** |\n| Equities | **15%** |\n| Credit | **5%** |\n\nSources: `portfolio.geo_breakdown`, `portfolio.sector_breakdown`.",
+  "verdict": "PASS",
+  "failure_kind": null,
+  "reason": "",
+  "total_ms": 2582.8
+}

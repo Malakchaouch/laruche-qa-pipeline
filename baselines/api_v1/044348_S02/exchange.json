@@ -1,0 +1,11 @@
+{
+  "scenario_id": "S02",
+  "channel": "api",
+  "endpoint": "/api/chat",
+  "input": "What is my inception-to-date time-weighted return?",
+  "reply": "[metrics.compute]\ninception-to-date TWR: 178.65%\n\nSources: `metrics.compute`.\n\nThe inception-to-date time-weighted return cannot be determined from the provided market overview data. This data includes information on various financial instruments and economic indicators but does not provide any historical performance data for an investment or portfolio. To calculate the inception-to-date time-weighted return, we would need the specific performance data of the investment in question.",
+  "verdict": "PASS",
+  "failure_kind": null,
+  "reason": "",
+  "total_ms": 6214.7
+}

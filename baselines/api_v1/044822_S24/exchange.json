@@ -1,0 +1,11 @@
+{
+  "scenario_id": "S24",
+  "channel": "api",
+  "endpoint": "/api/chat",
+  "input": "Find documents related to private equity exits.",
+  "reply": "I don't see any uploaded file context yet. Attach your documents, images, or audio files with the plus button, then ask me to summarize or analyze them.",
+  "verdict": "PASS",
+  "failure_kind": null,
+  "reason": "",
+  "total_ms": 2062.8
+}
