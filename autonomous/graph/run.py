@@ -43,6 +43,8 @@ def main() -> None:
                     help="qwen for judging only (fast, recommended)")
     ap.add_argument("--ollama-generate", action="store_true",
                     help="qwen for scenario generation (slow: large schema grammar)")
+    ap.add_argument("--viewport", default="desktop",
+                    help="browser viewport: desktop, iphone-se, pixel-7, iphone-14, ipad")
     args = ap.parse_args()
 
     if args.corpus:
@@ -77,6 +79,7 @@ def main() -> None:
         job_id=job_id,
         base_url=args.base_url,
         channel=args.channel,
+        viewport=args.viewport,
         scenarios=scenarios,
         remote_url=args.remote,
         judge_enabled=not args.no_judge,

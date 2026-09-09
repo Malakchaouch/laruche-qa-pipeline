@@ -30,6 +30,7 @@ class QAState(TypedDict, total=False):
     base_url: str
     remote_url: str | None          # Selenium Grid URL, or None for local Chromium
     channel: str                    # "web" (browser) or "api" (HTTP endpoint)
+    viewport: str                   # "desktop" (default) or a phone/tablet profile
 
     # ── discovered / generated corpus ─────────────────────────────────────────
     # In the skeleton these are injected. Later: Discovery -> Vision -> Generator
@@ -63,6 +64,7 @@ def new_state(
     base_url: str,
     scenarios: list[dict[str, Any]],
     channel: str = "web",
+    viewport: str = "desktop",
     remote_url: str | None = None,
     judge_enabled: bool = True,
     use_ollama: bool = False,
@@ -72,14 +74,19 @@ def new_state(
 
     `channel` decides how the Executor reaches the chatbot: "web" drives a real
     browser through the DSL interpreter, "api" posts to the HTTP endpoint and
-    reassembles the streamed reply. It defaults to "web" so existing callers
-    that omit it keep their previous behaviour.
+    reassembles the streamed reply.
+
+    `viewport` only affects the web channel: "desktop" leaves the browser
+    exactly as before, while a phone or tablet profile applies Chrome's mobile
+    emulation (size, pixel ratio, touch and user agent). Both default to their
+    previous behaviour so existing callers are unaffected.
     """
     return QAState(
         job_id=job_id,
         base_url=base_url,
         remote_url=remote_url,
         channel=channel,
+        viewport=viewport,
         discovered_spec={},
         scenarios=scenarios,
         scenario_index=0,

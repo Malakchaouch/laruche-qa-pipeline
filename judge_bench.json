@@ -1,0 +1,20 @@
+{
+  "model": "gemini-3.6-flash",
+  "run": "runs\\job_20260819_044330",
+  "rows": [
+    {
+      "scenario_id": "S01",
+      "intent": "portfolio_aum",
+      "type": "nominal",
+      "input": "What is my total assets under management?",
+      "reply": "[metrics.compute]\nAUM: $20.4M\n\nSources: `metrics.compute`.",
+      "qwen_verdict": "PASS",
+      "qwen_score": 5.0,
+      "qwen_reason": "score 5.0",
+      "gemma_verdict": null,
+      "gemma_score": null,
+      "gemma_reason": "HTTP 403: {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Your project has been denied access. Please contact support.\",\n    \"status\": \"PERMISSION_DEN",
+      "gemma_hallucination": null
+    }
+  ]
+}

@@ -5,7 +5,7 @@
 - **Pass rate delta:** -7.7 points
 - **Scenarios compared:** 13
 - **Regressions:** YES
-- **Generated:** 2026-08-11 03:10
+- **Generated:** 2026-09-09 05:40
 
 ## PASS to FAIL flips
 
