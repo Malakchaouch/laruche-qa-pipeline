@@ -360,3 +360,7 @@ was the same: an implausibly high pass rate with internally contradictory eviden
 
 **Verify a result that looks too good before reporting it.** Read the saved evidence
 for one scenario and check the input and reply are what you expect.
+ 
+## Tableau de bord 
+Ouvrir `dashboard.html` dans un navigateur apres l'avoir telecharge. 
+Le regenerer apres de nouvelles campagnes : `python make_dashboard.py` 
