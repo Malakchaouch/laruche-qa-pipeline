@@ -27,6 +27,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from autonomous.graph.summary import execution_summary, judgment_summary
+
 # ── design tokens ─────────────────────────────────────────────────────────────
 GROUND    = "#F2EFE8"   # papier chaud
 SURFACE   = "#FBFAF7"   # papier plus clair, pour la matrice
@@ -69,12 +71,20 @@ def channel_of(run: dict[str, Any]) -> str:
 
 
 def judge_mode(run: dict[str, Any]) -> str:
-    sources = {(r.get("judgment") or {}).get("source") for r in run["results"]}
-    sources.discard(None)
-    graded = sources - {"veto", "passthrough"}
-    if graded:
-        return sorted(graded)[0]
-    return "passthrough" if "passthrough" in sources else "inconnu"
+    """qwen / passthrough / mixed / veto_only / unknown — delegates to the
+    same classification graph/summary.py uses for judgment_summary(), so the
+    dashboard and pipeline_result.json can never disagree on what a
+    passthrough run's inflated rate actually means."""
+    return judgment_summary(run.get("results", []))["judge_mode"]
+
+
+_JUDGE_MODE_LABEL = {
+    "qwen": "qwen (jugé)",
+    "passthrough": "passthrough (non jugé)",
+    "mixed": "mixte",
+    "veto_only": "véto uniquement",
+    "unknown": "inconnu",
+}
 
 
 def when_of(job_id: str) -> str:
@@ -160,12 +170,19 @@ def build(root: Path, labels: dict[str, str]) -> str:
     by_channel: dict[str, dict[str, Any]] = {}
     for ch in channels:
         rs = [d for d in runs if d["_channel"] == ch]
-        judged = [d for d in rs if d["_judge"] not in ("passthrough", "inconnu")]
+        judged = [d for d in rs if d["_judge"] not in ("passthrough", "unknown", "veto_only")]
         ref = judged[-1] if judged else rs[-1]
+        ref_exec = execution_summary(ref["results"])
+        ref_judge = judgment_summary(ref["results"])
         by_channel[ch] = {
             "campagnes": len(rs),
             "scenarios": ref.get("total", 0),
-            "taux": ref.get("pass_rate", 0),
+            # Deux taux distincts plutôt qu'un seul "taux" ambigu : le premier
+            # dit si le canal a pu interroger LaRuche, le second si les
+            # réponses obtenues étaient fonctionnellement correctes.
+            "taux_technique": ref_exec["success_rate"],
+            "taux_fonctionnel": ref_judge["pass_rate"],
+            "judge_mode": ref_judge["judge_mode"],
             "label": ref["_label"] or when_of(ref.get("job_id", "")),
         }
 
@@ -223,11 +240,17 @@ def build(root: Path, labels: dict[str, str]) -> str:
         for x in frag) or '<tr><td colspan="5">Aucun échec sur l\'ensemble des campagnes.</td></tr>'
 
     # ── synthèse par canal ──
+    # Deux colonnes de taux, jamais une seule : "technique" dit si le canal a
+    # pu interroger LaRuche, "fonctionnel" si les réponses obtenues étaient
+    # correctes selon le juge — un run passthrough affiche donc explicitement
+    # son mode plutôt que de laisser un taux flatteur passer pour un verdict.
     chan_rows = "".join(
         f'<tr><td class="sid">{esc(ch)}</td>'
         f'<td class="num">{v["campagnes"]}</td>'
         f'<td class="num">{v["scenarios"]}</td>'
-        f'<td class="num">{v["taux"]} %</td>'
+        f'<td class="num">{v["taux_technique"]} %</td>'
+        f'<td class="num">{v["taux_fonctionnel"]} %</td>'
+        f'<td class="mono">{esc(_JUDGE_MODE_LABEL.get(v["judge_mode"], v["judge_mode"]))}</td>'
         f'<td class="mono">{esc(v["label"])}</td></tr>'
         for ch, v in by_channel.items())
 
@@ -240,6 +263,21 @@ def build(root: Path, labels: dict[str, str]) -> str:
 
     rate = latest.get("pass_rate", "—")
     generated = datetime.now().strftime("%d.%m.%Y")
+
+    # Santé de la dernière campagne, calculée directement depuis ses résultats
+    # bruts (jamais depuis un champ pass_rate déjà agrégé) : fonctionne à
+    # l'identique sur une campagne fraîche (qui porte déjà execution_verdict /
+    # judgment) et sur une ancienne baseline qui ne les a jamais eus.
+    latest_exec = execution_summary(latest["results"])
+    latest_judge = judgment_summary(latest["results"])
+    latest_passthrough_note = ""
+    if latest_judge["judge_mode"] in ("passthrough", "unknown", "veto_only"):
+        latest_passthrough_note = (
+            '<p class="warn"><strong>Cette campagne n\'a pas été jugée sémantiquement.</strong> '
+            'Le taux d\'exécution ci-dessus ne dit rien de la qualité des réponses — '
+            'relancer avec <code>--ollama-judge</code> avant de conclure quoi que ce soit '
+            'sur le comportement de LaRuche.</p>'
+        )
 
     return f"""<!doctype html>
 <html lang="fr">
@@ -423,19 +461,45 @@ def build(root: Path, labels: dict[str, str]) -> str:
   </header>
 
   <section>
-    <div class="shead"><span class="n">01</span><h2>Synthèse par canal</h2></div>
-    <p class="hint">Taux de la campagne jugée la plus récente pour chaque canal.
-    Deux chaînes d'exécution distinctes convergeant vers un taux voisin est un
-    indice que les deux mesurent la même propriété.</p>
+    <div class="shead"><span class="n">01</span><h2>Santé de la dernière campagne</h2></div>
+    <p class="hint">Deux questions distinctes, jamais confondues en un seul
+    « taux de succès » : LaRuche a-t-elle pu être interrogée, et séparément,
+    ses réponses étaient-elles correctes ?</p>
+    <table class="fails">
+      <thead><tr><th>Zone</th><th>Réussite technique</th><th>Échec technique</th>
+      <th>Ignoré</th><th>Taux</th></tr></thead>
+      <tbody>
+        <tr><td class="sid">Exécution</td>
+          <td class="num">{latest_exec['successful']}</td>
+          <td class="num">{latest_exec['failed']}</td>
+          <td class="num">{latest_exec['skipped']}</td>
+          <td class="num">{latest_exec['success_rate']} %</td></tr>
+        <tr><td class="sid">Jugement ({esc(_JUDGE_MODE_LABEL.get(latest_judge['judge_mode'], latest_judge['judge_mode']))})</td>
+          <td class="num">{latest_judge['pass']}</td>
+          <td class="num">{latest_judge['fail']}</td>
+          <td class="num">{latest_judge['skipped']}</td>
+          <td class="num">{latest_judge['pass_rate']} %</td></tr>
+      </tbody>
+    </table>
+    {latest_passthrough_note}
+  </section>
+
+  <section>
+    <div class="shead"><span class="n">02</span><h2>Synthèse par canal</h2></div>
+    <p class="hint">Taux technique (exécution) et taux fonctionnel (jugement) de
+    la campagne la plus récente pour chaque canal. Deux chaînes d'exécution
+    distinctes convergeant vers un taux fonctionnel voisin est un indice que
+    les deux mesurent la même propriété.</p>
     <table class="fails">
       <thead><tr><th>Canal</th><th>Campagnes</th><th>Scénarios</th>
-      <th>Taux</th><th>Campagne de référence</th></tr></thead>
+      <th>Taux technique</th><th>Taux fonctionnel</th><th>Juge</th>
+      <th>Campagne de référence</th></tr></thead>
       <tbody>{chan_rows}</tbody>
     </table>
   </section>
 
   <section>
-    <div class="shead"><span class="n">02</span><h2>Matrice des verdicts</h2></div>
+    <div class="shead"><span class="n">03</span><h2>Matrice des verdicts</h2></div>
     <p class="hint">Une ligne par scénario, une colonne par campagne ; la valeur
     est la note du juge sur 5. Survoler une ligne ouvre sa ligne de vie : lire
     une ligne dit si un scénario est stable, lire une colonne dit ce qu'une
@@ -454,7 +518,7 @@ def build(root: Path, labels: dict[str, str]) -> str:
   </p>
 
   <section>
-    <div class="shead"><span class="n">03</span><h2>Taux et distributions</h2></div>
+    <div class="shead"><span class="n">04</span><h2>Taux et distributions</h2></div>
     <p class="hint">Un juge qui ne rend que des notes maximales n'évalue rien :
     la dispersion des notes est le contrôle de vraisemblance le plus direct.</p>
     <div class="charts">
@@ -464,7 +528,7 @@ def build(root: Path, labels: dict[str, str]) -> str:
   </section>
 
   <section>
-    <div class="shead"><span class="n">04</span><h2>Scénarios en échec</h2></div>
+    <div class="shead"><span class="n">05</span><h2>Scénarios en échec</h2></div>
     <p class="hint">Tous les scénarios ayant échoué au moins une fois, toutes
     campagnes confondues, classés par fréquence. Un scénario
     <strong>constant</strong> échoue à chaque campagne : c'est une défaillance

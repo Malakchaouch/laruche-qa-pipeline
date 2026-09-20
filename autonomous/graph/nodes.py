@@ -31,6 +31,7 @@ from ..executor.api_client import run_api_scenario
 from .state import QAState
 from .validator import validate_scenario
 from .judge import judge_result
+from .summary import execution_summary, judgment_summary
 
 RUNS_ROOT = Path("runs")
 
@@ -121,6 +122,7 @@ def execute(state: QAState) -> dict[str, Any]:
             "intent": sc.get("intent", ""),
             "sensitive": bool(sc.get("sensitive", False)),
             "verdict": "SKIPPED",
+            "execution_verdict": "SKIPPED",
             "failure_kind": "validation",
             "reason": val.get("reason", ""),
         }
@@ -154,6 +156,11 @@ def execute(state: QAState) -> dict[str, Any]:
             flush=True,
         )
         result = run_result.model_dump()
+    # Stamp the raw technical outcome BEFORE the judge node can overwrite
+    # `verdict` with its own semantic decision. Without this, "did the
+    # scenario actually execute?" becomes unrecoverable once judged — the
+    # exact conflation the execution/judgment summaries below exist to undo.
+    result["execution_verdict"] = result.get("verdict")
     # Carry scenario metadata onto the result so the Judge, the Reporter and the
     # regression diff can label scenarios by intent rather than by bare id.
     result["intent"] = sc.get("intent", "")
@@ -212,10 +219,18 @@ def finalize(state: QAState) -> dict[str, Any]:
     pipeline_result = {
         "job_id": state["job_id"],
         "total": total,
+        # Kept exactly as before for backward compatibility (compare.py and
+        # older tooling read these directly): the "one verdict that matters"
+        # per scenario, semantic when the judge ran, technical otherwise.
         "passed": passed,
         "failed": failed,
         "skipped": skipped,
         "pass_rate": pass_rate,
+        # New, explicit split — see graph/summary.py for why this exists:
+        # "did it run?" (execution_summary) is no longer conflated with
+        # "was the answer good?" (judgment_summary).
+        "execution_summary": execution_summary(results),
+        "judgment_summary": judgment_summary(results),
         "results": results,
     }
     print(

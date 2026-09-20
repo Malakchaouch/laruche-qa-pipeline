@@ -118,6 +118,44 @@ def test_intent_is_carried_onto_results(monkeypatch):
     assert r["sensitive"] is True
 
 
+def test_execution_and_judgment_summaries_stay_separate(monkeypatch):
+    """The bug this fixes, reproduced end-to-end through the real graph:
+    scenario A executes and is judged PASS; scenario B executes fine (the
+    browser/API call succeeded) but is judged FAIL -- exactly the S10 case
+    from the report (execution.ok=true, judgment.verdict=FAIL). Both must
+    count as a technical success; only B counts as a functional failure."""
+    monkeypatch.setattr(nodes, "run_scenario", _fake_execute("PASS"))
+    monkeypatch.setattr(nodes, "make_driver", _no_driver)
+
+    verdicts = {"A": ("PASS", 4.0), "B": ("FAIL", 2.33)}
+
+    def fake_judge_result(scenario, run_result, score_fn=None, min_score=3.0):
+        verdict, score = verdicts[scenario["id"]]
+        return {"verdict": verdict, "reason": "test", "source": "qwen", "score": score}
+
+    monkeypatch.setattr(nodes, "judge_result", fake_judge_result)
+
+    scenarios = [dict(SMOKE, id="A"), dict(SMOKE, id="B")]
+    state = new_state("job_summary", "http://x", scenarios)
+    app = build_graph()
+    final = app.invoke(state, {"configurable": {"thread_id": "job_summary"}, "recursion_limit": 50})
+
+    pr = final["pipeline_result"]
+    # Both scenarios ran successfully -- execution health is 2/2, not 1/2.
+    assert pr["execution_summary"] == {
+        "successful": 2, "failed": 0, "skipped": 0, "success_rate": 100.0,
+    }
+    # Only one of the two answers was judged functionally correct.
+    assert pr["judgment_summary"]["pass"] == 1
+    assert pr["judgment_summary"]["fail"] == 1
+    assert pr["judgment_summary"]["skipped"] == 0
+    assert pr["judgment_summary"]["pass_rate"] == 50.0
+    assert pr["judgment_summary"]["judge_mode"] == "qwen"
+    # Backward compat: the old top-level fields are untouched -- they still
+    # reflect the final (judged) verdict, exactly as before this change.
+    assert pr["passed"] == 1 and pr["failed"] == 1 and pr["pass_rate"] == 50.0
+
+
 def test_skipped_results_also_carry_intent(monkeypatch):
     monkeypatch.setattr(nodes, "run_scenario", _fake_execute("PASS"))
     monkeypatch.setattr(nodes, "make_driver", _no_driver)
